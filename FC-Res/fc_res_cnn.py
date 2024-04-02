@@ -4,7 +4,6 @@ Implementation of https://www.researchgate.net/publication/345176073_An_Intellig
 import torch
 from torch import nn
 from typing import Callable, Dict, Any, Union
-from _config import Config
 import numpy as np
 import pandas as pd
 from utils.helpers import get_logger
@@ -165,10 +164,10 @@ if __name__ == '__main__':
                     'residual_padding': 'same',
                     'classifier_padding': 'same'}
     normalize = True
-    input_expected_shape = Config.full_data_expected_shape
+    input_expected_shape = (8,128,256)
     model = FC_Res(**model_kwargs)
     model.to(device)
-    summary = summary(model, torch.rand(Config.batch_size, *expected_shape), verbose=0, device=device)
+    summary = summary(model, torch.rand(32, *input_expected_shape), verbose=0, device=device)
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
     logger = get_logger(name)
